@@ -1,8 +1,11 @@
 <div class="row">
-    <div class="col-md-12">
+    <div class="col-md-12 d-flex justify-content-between align-items-center">
         <h2>Aktive Udlån</h2>
-        <hr>
+        <a href="index.php?page=loan_history" class="btn btn-secondary">
+            <i class="fas fa-history"></i> Udlåns Historik
+        </a>
     </div>
+    <hr>
 </div>
 
 <div class="row">
@@ -37,23 +40,27 @@
                     <tbody>
                         <?php
                         $loans = getLoanedComputers($conn);
-                        while ($loan = mysqli_fetch_assoc($loans)) {
-                            $currentDate = date('Y-m-d');
-                            $rowClass = ($loan['end_date'] < $currentDate) ? 'table-danger' : '';
-                            
-                            echo "<tr class='" . $rowClass . "'>";
-                            echo "<td>" . $loan['computer_number'] . "</td>";
-                            echo "<td>" . $loan['name'] . "</td>";
-                            echo "<td>" . $loan['student_number'] . "</td>";
-                            echo "<td>" . $loan['start_date'] . "</td>";
-                            echo "<td>" . $loan['end_date'] . "</td>";
-                            echo "<td>
-                                    <form method='post'>
-                                        <input type='hidden' name='loan_id' value='" . $loan['loan_id'] . "'>
-                                        <button type='submit' name='return_loan' class='btn btn-sm btn-success'>Aflever</button>
-                                    </form>
-                                  </td>";
-                            echo "</tr>";
+                        if (mysqli_num_rows($loans) == 0) {
+                            echo "<tr><td colspan='6' class='text-center'>Ingen aktive udlån</td></tr>";
+                        } else {
+                            while ($loan = mysqli_fetch_assoc($loans)) {
+                                $currentDate = date('Y-m-d');
+                                $rowClass = ($loan['end_date'] < $currentDate) ? 'table-danger' : '';
+                                
+                                echo "<tr class='" . $rowClass . "'>";
+                                echo "<td>" . $loan['computer_number'] . "</td>";
+                                echo "<td>" . $loan['name'] . "</td>";
+                                echo "<td>" . $loan['student_number'] . "</td>";
+                                echo "<td>" . date('d/m/Y', strtotime($loan['start_date'])) . "</td>";
+                                echo "<td>" . date('d/m/Y', strtotime($loan['end_date'])) . "</td>";
+                                echo "<td>
+                                        <form method='post' onsubmit='return confirmReturn(" . $loan['computer_number'] . ")'>
+                                            <input type='hidden' name='loan_id' value='" . $loan['loan_id'] . "'>
+                                            <button type='submit' name='return_loan' class='btn btn-sm btn-success'>Aflever</button>
+                                        </form>
+                                      </td>";
+                                echo "</tr>";
+                            }
                         }
                         ?>
                     </tbody>
@@ -62,3 +69,9 @@
         </div>
     </div>
 </div>
+
+<script>
+function confirmReturn(computerNumber) {
+    return confirm("Er du sikker på du vil registrere computer " + computerNumber + " som afleveret?");
+}
+</script>

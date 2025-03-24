@@ -2,6 +2,7 @@
 session_start();
 include 'includes/db_connect.php';
 include 'includes/functions.php';
+include 'includes/mail_functions.php';
 ?>
 
 <!DOCTYPE html>
@@ -43,6 +44,9 @@ include 'includes/functions.php';
                 break;
             case 'add_user':
                 include 'pages/add_user.php';
+                break;
+            case 'loan_history':
+                include 'pages/loan_history.php';
                 break;
             default:
                 include 'pages/dashboard.php';

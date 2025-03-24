@@ -20,10 +20,15 @@
                     $startDate = $_POST['start_date'];
                     $endDate = $_POST['end_date'];
                     
-                    if (createLoan($conn, $userId, $computerId, $startDate, $endDate)) {
-                        echo '<div class="alert alert-success">Udlån oprettet med succes!</div>';
+                    $user = getUserById($conn, $userId);
+                    if ($user['is_blacklisted'] == 1) {
+                        echo '<div class="alert alert-danger">Fejl: Denne bruger er blacklistet og kan ikke låne computere.</div>';
                     } else {
-                        echo '<div class="alert alert-danger">Der opstod en fejl. Prøv igen.</div>';
+                        if (createLoan($conn, $userId, $computerId, $startDate, $endDate)) {
+                            echo '<div class="alert alert-success">Udlån oprettet med succes!</div>';
+                        } else {
+                            echo '<div class="alert alert-danger">Der opstod en fejl. Prøv igen.</div>';
+                        }
                     }
                 }
                 
