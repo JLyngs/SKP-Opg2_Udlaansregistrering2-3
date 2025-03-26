@@ -1,6 +1,7 @@
 <?php
-// require_once 'includes/mail_functions.php';
 
+$pagename = $_POST["page"] ?? $_GET["page"] ?? "dashboard";
+$page = "pages/$pagename.php";
 function blacklistUser($conn, $userId) {
     $userId = mysqli_real_escape_string($conn, $userId);
     $sql = "UPDATE user SET is_blacklisted = 1 WHERE id = '$userId'";
@@ -31,7 +32,7 @@ function addUser($conn, $name, $email, $class, $address, $postalCode, $city, $cp
     $roleId = mysqli_real_escape_string($conn, $roleId);
     $isBlacklisted = (int)$isBlacklisted;
     
-    $sql = "INSERT INTO user (name, email, class, address, postal_code, city, cpr, role_id, is_blacklisted, is_active) 
+    $sql = "INSERT INTO user (name, email, class, address, postalcode, city, cpr, role_id, is_blacklisted, is_active) 
             VALUES ('$name', '$email', '$class', '$address', '$postalCode', '$city', '$cpr', '$roleId', $isBlacklisted, 1)";
     
     if (mysqli_query($conn, $sql)) {

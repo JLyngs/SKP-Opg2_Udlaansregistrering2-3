@@ -21,7 +21,7 @@
                     $email = $_POST['email'];
                     $class = $_POST['class'];
                     $address = $_POST['address'];
-                    $postalCode = $_POST['postal_code'];
+                    $postalCode = $_POST['postalcode'];
                     $city = $_POST['city'];
                     $cpr = $_POST['cpr'];
                     $roleId = $_POST['role_id'];
@@ -85,8 +85,8 @@
                             <div class="row">
                                 <div class="col-md-4">
                                     <div class="mb-3">
-                                        <label for="postal_code" class="form-label">Postnummer</label>
-                                        <input type="text" class="form-control" id="postal_code" name="postal_code" value="<?php echo isset($postalCode) ? $postalCode : ''; ?>" required>
+                                        <label for="postalcode" class="form-label">Postnummer</label>
+                                        <input type="text" class="form-control" id="postalcode" name="postalcode" value="<?php echo isset($postalCode) ? $postalCode : ''; ?>" required>
                                     </div>
                                 </div>
                                 <div class="col-md-8">
